@@ -22,15 +22,35 @@ function validateTask(req, res, next) {
 
 function validateAuth(req, res, next) {
   const { username, password } = req.body;
-  
+
   if (!username || typeof username !== 'string' || username.length < 3) {
     return res.status(400).json({ error: 'Username must be at least 3 characters' });
   }
-  
-  if (!password || typeof password !== 'string' || password.length < 6) {
-    return res.status(400).json({ error: 'Password must be at least 6 characters' });
+
+  if (!password || typeof password !== 'string') {
+    return res.status(400).json({ error: 'Password is required' });
   }
-  
+
+  // Password must be at least 8 characters
+  if (password.length < 8) {
+    return res.status(400).json({ error: 'Password must be at least 8 characters' });
+  }
+
+  // Password must contain at least one uppercase letter
+  if (!/[A-Z]/.test(password)) {
+    return res.status(400).json({ error: 'Password must contain at least one uppercase letter' });
+  }
+
+  // Password must contain at least one lowercase letter
+  if (!/[a-z]/.test(password)) {
+    return res.status(400).json({ error: 'Password must contain at least one lowercase letter' });
+  }
+
+  // Password must contain at least one number
+  if (!/[0-9]/.test(password)) {
+    return res.status(400).json({ error: 'Password must contain at least one number' });
+  }
+
   next();
 }
 

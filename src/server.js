@@ -13,14 +13,11 @@ app.use('/api/tasks', taskRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
-  console.error(err.stack);
+  console.error(err.stack || err);
+  const errorMessage = err.message || 'Internal Server Error';
   res.status(err.status || 500).json({
-    error: err.message || 'Internal Server Error'
+    error: errorMessage
   });
-});
-
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
 });
 
 // Welcome route
@@ -43,4 +40,13 @@ app.get('/', (req, res) => {
     }
   });
 });
+
+// Only start server if this file is run directly (not imported)
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+  });
+}
+
+module.exports = app;
 
