@@ -3,7 +3,7 @@ const taskRoutes = require('./routes/taskRoutes');
 const authRoutes = require('./routes/authRoutes');
 
 const app = express();
-const PORT = 3000;
+const PORT = 8000;
 
 app.use(express.json());
 
